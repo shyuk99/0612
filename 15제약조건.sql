@@ -90,21 +90,43 @@ ALTER TABLE DEPTS DROP CONSTRAINT DEPT_DEPT_GENDER_CK; -- 제약조건명 드랍
 -- 조건) GENDER 고정문자형 1byte, CHECK제약 (M, F)
 -- 조건) LOCA 숫자형 4자리, FOREIGN KEY ? 참조 locations테이블(location_id) 이름:(mem_loca_loc_locid_fk)
 
-   CREATE TABLE TABLE1 (
-          
-          INSERT M_NAME, VALUE();
-          
+   CREATE TABLE EMPS(
+   
+      M_NAME VARCHAR2(20) NOT NULL,
+      M_NUM NUMBER(5),
+      REG_DATE DATE NOT NULL,
+      GENDER CHAR(1),
+      LOCA NUMBER(4)
    );
-
+   
+   ALTER TABLE EMPS ADD CONSTRAINT mem_memnum_pk PRIMARY KEY (M_NUM);
+   ALTER TABLE EMPS ADD CONSTRAINT mem_regdate_uk UNIQUE (REG_DATE);
+   ALTER TABLE EMPS ADD CONSTRAINT mem_gender_ck CHECK (GENDER IN('M','E'));
+   ALTER TABLE EMPS ADD CONSTRAINT mem_loca_loc_locid_fk FOREIGN KEY (LOCA) REFERENCES LOCATIONS(LOCATION_ID);
+   
+   INSERT INTO EMPS VALUES ('AAA', 1, '2018-07-01', 'M', 1800);
+   
+   
 -- 문제2.
 -- 도서 대여 이력 테이블을 생성하려 합니다.
 -- 도서 대여 이력 테이블은
 -- 대여번호(숫자) PK, 대출도서번호(문자), 대여일(날짜), 반납일(날짜), 반납여부(Y/N)를 가집니다.
 -- 적절한 테이블을 생성해 보세요.
 
+   CREATE TABLE RENTALS (
    
+         RENTALS_NO NUMBER(10),
+         BOOK_NO VARCHAR2(30),
+         RENTALS_START_DATE DATE DEFAULT SYSDATE,
+         RENTALS_END_DATE DATE,
+         RENTALS_YN CHAR(1) DEFAULT 'N'
+         
+   );
+   
+   ALTER TABLE RENTALS ADD CONSTRAINT RENTALS_NO_PK PRIMARY KEY (RENTALS_NO);
+   ALTER TABLE RENTALS ADD CONSTRAINT RENTALS_YB_CL CHECK (RENTALS_YN IN ('Y', 'N'));
 
-
+   SELECT * FROM RENTALS;
 
 
 
